@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Cache
+.pytest_cache/
+.cache/
+
+# Build
+build/
+dist/
+
+# Logs
+*.log
+
+# Database
+*.db
+
+# Windows
+Thumbs.db
+
+# macOS
+.DS_Store
