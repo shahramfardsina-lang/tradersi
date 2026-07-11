@@ -1,0 +1,452 @@
+[
+    {
+        "time": "2026-07-07 23:05:56",
+        "top5": [
+            {
+                "name": "Stellar",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Uniswap",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Solana",
+                "score": 55,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Bitcoin",
+                "score": 40,
+                "signal": "WEAK 🔴"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-07 23:12:51",
+        "top5": [
+            {
+                "name": "Stellar",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Uniswap",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Solana",
+                "score": 55,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Bitcoin",
+                "score": 40,
+                "signal": "WEAK 🔴"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-08 14:45:42",
+        "top5": [
+            {
+                "name": "solana",
+                "score": 50,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "chainlink",
+                "score": 15,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "injective-protocol",
+                "score": 15,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "arbitrum",
+                "score": 15,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "render-token",
+                "score": 10,
+                "signal": "WEAK 🔴"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-08 14:54:13",
+        "top5": [
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Solana",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Uniswap",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Worldcoin",
+                "score": 45,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "Bitcoin",
+                "score": 40,
+                "signal": "WEAK 🔴"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-08 15:06:29",
+        "top5": [
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Solana",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Uniswap",
+                "score": 55,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Worldcoin",
+                "score": 45,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "Bitcoin",
+                "score": 40,
+                "signal": "WEAK 🔴"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-08 15:15:03",
+        "top5": [
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Solana",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Uniswap",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Worldcoin",
+                "score": 45,
+                "signal": "WEAK 🔴"
+            },
+            {
+                "name": "Bitcoin",
+                "score": 40,
+                "signal": "WEAK 🔴"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-08 21:10:27",
+        "top5": [
+            {
+                "name": "Aave",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Velvet",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Bitway",
+                "score": 70,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "ApeCoin",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Solana",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-08 22:09:05",
+        "top5": [
+            {
+                "name": "Velvet",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Aave",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "ApeCoin",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            },
+            {
+                "name": "Solana",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 10:32:40",
+        "top5": [
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "ApeCoin",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 10:58:30",
+        "top5": [
+            {
+                "name": "Hyperliquid",
+                "score": 95,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "ApeCoin",
+                "score": 65,
+                "signal": "WATCH 🟡"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 11:06:35",
+        "top5": [
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Solana",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 11:15:17",
+        "top5": [
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Solana",
+                "score": 75,
+                "signal": "STRONG WATCH 🟢"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 11:22:59",
+        "top5": [
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Ether.fi",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 11:32:35",
+        "top5": [
+            {
+                "name": "Ether.fi",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            }
+        ]
+    },
+    {
+        "time": "2026-07-09 11:40:48",
+        "top5": [
+            {
+                "name": "EigenCloud (prev. EigenLayer)",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Ether.fi",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Figure Heloc",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Hyperliquid",
+                "score": 85,
+                "signal": "STRONG WATCH 🟢"
+            },
+            {
+                "name": "Grass",
+                "score": 80,
+                "signal": "STRONG WATCH 🟢"
+            }
+        ]
+    }
+]

@@ -1,0 +1,836 @@
+from scanner import get_all_coins
+from market_score import score_market
+from candles import get_candles
+from indicators import calculate_indicators
+from analyzer import analyze_coin
+
+import time
+import json
+import os
+from datetime import datetime
+
+# ==========================
+# CONFIG
+# ==========================
+
+MAX_ANALYZE = 20
+
+RETRY_COUNT = 3
+
+RETRY_WAIT = [5, 10, 15]
+
+# ==========================
+# HISTORY CONFIG
+# ==========================
+
+HISTORY_FILE = "history.json"
+
+MAX_HISTORY = 100
+# ==========================
+# HISTORY ENGINE
+# ==========================
+
+def save_history(results):
+
+    history = []
+
+    if os.path.exists(HISTORY_FILE):
+
+        try:
+
+            with open(
+                HISTORY_FILE,
+                "r",
+                encoding="utf-8"
+            ) as f:
+
+                history = json.load(f)
+
+        except:
+
+            history = []
+
+    snapshot = {
+
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+
+        "top5": []
+
+    }
+
+    for coin in results[:5]:
+
+        snapshot["top5"].append({
+
+            "name": coin["name"],
+
+            "score": coin["score"],
+
+            "signal": coin["signal"]
+
+        })
+
+    history.append(snapshot)
+
+    history = history[-MAX_HISTORY:]
+
+    with open(
+
+        HISTORY_FILE,
+
+        "w",
+
+        encoding="utf-8"
+
+    ) as f:
+
+        json.dump(
+
+            history,
+
+            f,
+
+            indent=4,
+
+            ensure_ascii=False
+
+        )
+
+    return history
+
+
+def compare_history(results, history):
+
+    if len(history) < 2:
+
+        print("\nNo previous history.")
+
+        return
+
+    print("\n===== MARKET CHANGE =====")
+
+    old_scores = {
+
+        coin["name"]: coin["score"]
+
+        for coin in history[-2]["top5"]
+
+    }
+
+    for coin in results[:5]:
+
+        name = coin["name"]
+
+        score = coin["score"]
+
+        if name not in old_scores:
+
+            print(f"🆕 {name} entered Top5")
+
+            continue
+
+        change = score - old_scores[name]
+
+        if change > 0:
+
+            print(f"📈 {name}: +{change}")
+
+        elif change < 0:
+
+            print(f"📉 {name}: {change}")
+
+        else:
+
+            print(f"➖ {name}: No change")
+# ==========================
+# SINGLE COIN ANALYSIS
+# ==========================
+
+def analyze_single_coin(coin):
+
+    try:
+
+        prices, error = get_candles(
+            coin["id"]
+        )
+
+
+        if prices is None:
+
+            return None, error
+
+
+        indicators = calculate_indicators(
+            prices
+        )
+
+
+        if indicators is None:
+
+            return None, "Indicator error"
+
+
+        analysis = analyze_coin(
+            coin,
+            indicators
+        )
+
+
+        result = {
+
+            "name": coin["name"],
+
+            "id": coin["id"],
+
+            "score": analysis["score"],
+
+            "signal": analysis["signal"],
+
+            "rsi": round(indicators.get("rsi",0),2),
+
+            "ema20": round(indicators.get("ema20",0),4),
+
+            "ema50": round(indicators.get("ema50",0),4),
+
+            "macd": round(indicators.get("macd",0),4)
+
+        }
+
+
+        return result, None
+
+
+    except Exception as e:
+
+        return None, str(e)
+
+
+
+# ==========================
+# RETRY SYSTEM
+# ==========================
+
+def retry_coin(coin):
+
+
+    for attempt in range(RETRY_COUNT):
+
+
+        print(
+            f"Retry {coin['name']} "
+            f"{attempt+1}/{RETRY_COUNT}"
+        )
+
+
+        time.sleep(
+            RETRY_WAIT[attempt]
+        )
+
+
+        result, error = analyze_single_coin(
+            coin
+        )
+
+
+        if result:
+
+
+            print(
+                "✅ Recovered:",
+                coin["name"]
+            )
+
+            return result
+
+
+
+    print(
+        "❌ Failed:",
+        coin["name"]
+    )
+
+
+    return None
+
+
+# ==========================
+# AI MARKET REVIEW
+# ==========================
+
+def ai_market_review(results):
+
+    if not results:
+
+        return {
+
+            "best_coin": None,
+
+            "decision": "WAIT",
+
+            "confidence": 0,
+
+            "trend": "Unknown",
+
+            "risk": "Unknown",
+
+            "entry_zone": 0,
+
+            "take_profit": 0,
+
+            "stop_loss": 0,
+
+            "reason": [],
+
+            "watch_list": []
+
+        }
+
+    best = results[0]
+
+    reasons = []
+
+    bullish = 0
+
+    # EMA
+    if best["ema20"] > best["ema50"]:
+
+        bullish += 1
+
+        reasons.append("EMA20 above EMA50")
+
+    else:
+
+        reasons.append("EMA20 below EMA50")
+
+    # MACD
+    if best["macd"] > 0:
+
+        bullish += 1
+
+        reasons.append("MACD positive")
+
+    else:
+
+        reasons.append("MACD negative")
+
+    # RSI
+    if 45 <= best["rsi"] <= 65:
+
+        bullish += 1
+
+        reasons.append("Healthy RSI")
+
+    elif best["rsi"] > 70:
+
+        reasons.append("RSI Overbought")
+
+    else:
+
+        reasons.append("RSI Weak")
+
+    confidence = min(
+        100,
+        int(best["score"] + bullish * 5)
+    )
+
+    if confidence >= 90:
+
+        decision = "BUY"
+
+        risk = "LOW"
+
+    elif confidence >= 75:
+
+        decision = "WATCH"
+
+        risk = "MEDIUM"
+
+    else:
+
+        decision = "WAIT"
+
+        risk = "HIGH"
+
+    entry = round(
+        (best["ema20"] + best["ema50"]) / 2,
+        4
+    )
+
+    stop = round(
+        entry * 0.97,
+        4
+    )
+
+    take = round(
+        entry * 1.08,
+        4
+    )
+
+    return {
+
+        "best_coin": best["name"],
+
+        "decision": decision,
+
+        "confidence": confidence,
+
+        "trend":
+            "Bullish"
+            if bullish >= 2
+            else "Bearish",
+
+        "risk": risk,
+
+        "entry_zone": entry,
+
+        "stop_loss": stop,
+
+        "take_profit": take,
+
+        "reason": reasons,
+
+        "watch_list": [
+
+            coin["name"]
+
+            for coin in results[:5]
+
+        ]
+
+    }
+
+# ==========================
+# MAIN BOT
+# ==========================
+
+def run_bot():
+
+    print("\n🚀 Crypto AI Analyzer")
+    print("--------------------")
+
+
+    coins = get_all_coins()
+
+
+    print(
+        "Market coins:",
+        len(coins)
+    )
+
+
+    if not coins:
+
+        print(
+            "No market data"
+        )
+
+        return
+
+
+
+    print("\n📊 Market scoring...")
+
+
+    market_top = score_market(
+        coins,
+        limit=30
+    )
+
+
+
+    print(
+        "\n===== TOP 30 MARKET ====="
+    )
+
+
+    for coin in market_top:
+
+
+        print(
+            coin["name"],
+            "| Score:",
+            coin["score"]
+        )
+
+
+
+    results = []
+
+    retry_list = []
+
+    skipped = []
+
+    recovered = []
+
+
+
+    print(
+        "\n📈 Technical analysis..."
+    )
+
+
+
+    for coin in market_top[:MAX_ANALYZE]:
+
+
+        print(
+            "\nAnalyzing:",
+            coin["name"]
+        )
+
+
+
+        result, error = analyze_single_coin(
+            coin
+        )
+
+
+
+        if result:
+
+
+            results.append(
+                result
+            )
+
+
+            print(
+
+                coin["name"],
+                "|",
+                result["score"],
+                "| RSI:",
+                result["rsi"],
+                "| MACD:",
+                result["macd"]
+
+            )
+
+
+        else:
+
+
+            print(
+                "⚠️",
+                coin["name"],
+                "added to retry"
+            )
+
+
+            retry_list.append(
+                coin
+            )
+
+
+
+        time.sleep(3)
+
+
+
+    # ==========================
+    # RETRY FAILED
+    # ==========================
+
+
+    if retry_list:
+
+
+        print(
+            "\n===== RETRY CHECK ====="
+        )
+
+
+        for coin in retry_list:
+
+
+            result = retry_coin(
+                coin
+            )
+
+
+            if result:
+
+
+                results.append(
+                    result
+                )
+
+
+                recovered.append(
+                    coin["name"]
+                )
+
+
+            else:
+
+
+                skipped.append({
+
+                    "name":
+                    coin["name"],
+
+                    "reason":
+                    "API failed after retry"
+
+                })
+
+
+
+    # SORT RESULTS
+
+
+    results.sort(
+
+        key=lambda x:x["score"],
+
+        reverse=True
+
+    )
+    print("\n===== TOP 5 FINAL =====")
+
+
+    for item in results[:5]:
+
+
+        print("\n")
+
+        print(
+            item["name"]
+        )
+
+
+        print(
+            "Score:",
+            item["score"]
+        )
+
+
+        print(
+            "RSI:",
+            item["rsi"]
+        )
+
+
+        print(
+            "EMA20:",
+            item["ema20"]
+        )
+
+
+        print(
+            "EMA50:",
+            item["ema50"]
+        )
+
+
+        print(
+            "MACD:",
+            item["macd"]
+        )
+
+
+        print(
+            "Signal:",
+            item["signal"]
+        )
+
+
+
+    print(
+        "\n===== RECOVERED COINS ====="
+    )
+
+
+    if recovered:
+
+
+        for coin in recovered:
+
+            print(
+                "✅",
+                coin
+            )
+
+
+    else:
+
+        print(
+            "None"
+        )
+
+
+
+    print(
+        "\n===== SKIPPED FINAL ====="
+    )
+
+
+    if skipped:
+
+
+        for item in skipped:
+
+
+            print(
+
+                "⚠️",
+
+                item["name"],
+
+                "|",
+
+                item["reason"]
+
+            )
+
+
+    else:
+
+        print(
+            "None"
+        )
+
+
+
+    # ==========================
+    # CHATGPT REVIEW DATA
+    # ==========================
+
+
+    ai_review = {
+
+        "instruction":
+        """
+        Analyze crypto results.
+
+        Give:
+        - Best opportunity
+        - Risk level
+        - Trend direction
+        - Possible entry
+        - Coins to avoid
+
+        Do not give financial advice.
+        Use technical analysis only.
+        """,
+
+
+        "coins":
+        results[:5]
+
+    }
+
+
+
+    report = {
+
+
+        "top5":
+        results[:5],
+
+
+        "all_results":
+        results,
+
+
+        "recovered":
+        recovered,
+
+
+        "skipped":
+        skipped,
+
+
+        "chatgpt_review":
+        ai_review,
+
+
+        "timestamp":
+        time.time()
+
+    }
+
+
+
+    with open(
+
+        "analysis_report.json",
+
+        "w",
+
+        encoding="utf-8"
+
+    ) as f:
+
+
+        json.dump(
+
+            report,
+
+            f,
+
+            indent=4,
+
+            ensure_ascii=False
+
+        )
+
+
+    ai_result = ai_market_review(results[:5])
+
+    print("\n🤖 AI MARKET REVIEW")
+    print("--------------------")
+
+    print(
+        "\n🏆 Best Opportunity:",
+        ai_result["best_coin"]
+    )
+
+    print(
+        "Trend:",
+        ai_result["trend"]
+    )
+
+    print(
+        "Risk:",
+        ai_result["risk"]
+    )
+
+    print("\nReasons:")
+    for reason in ai_result["reason"]:
+        print("✅", reason)
+
+    print("\nWatch List:")
+    for coin in ai_result["watch_list"]:
+        print("-", coin)
+
+    report["ai_review"] = ai_result
+
+
+    print(
+        "\n📄 analysis_report.json created"
+    )
+# ==========================
+# START BOT
+# ==========================
+
+if __name__ == "__main__":
+
+    while True:
+
+        try:
+
+            run_bot()
+
+        except Exception as e:
+
+            print(
+                "\n❌ BOT ERROR:",
+                e
+            )
+
+        print(
+            "\n⏳ Waiting 5 minutes..."
+        )
+
+        time.sleep(300)
